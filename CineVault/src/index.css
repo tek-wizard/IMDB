@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@400..700&family=Creepster&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Orbitron:wght@400..900&family=Permanent+Marker&family=Rubik+Glitch&family=Rubik+Vinyl&family=Satisfy&family=Sixtyfour+Convergence:BLED,SCAN,XELA@30,-53,100&family=UnifrakturMaguntia&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#root{
+    background-color: black;
+}
+
+@theme inline {
+    --animate-aurora: aurora 60s linear infinite;
+    @keyframes aurora {
+      from {
+        background-position:
+          50% 50%,
+          50% 50%;
+      }
+      to {
+        background-position:
+          350% 50%,
+          350% 50%;
+      }
+    }
+  }

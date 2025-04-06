@@ -1,0 +1,21 @@
+.container {
+    position: relative;
+    width: 80%;
+    margin: auto;
+    
+}
+
+.scroll-container {
+    overflow-x: auto;
+    white-space: nowrap;
+    scroll-behavior: smooth;
+}
+
+.scroll-container::-webkit-scrollbar {
+    display: none;
+}
+
+.scroll-content {
+    display: inline-flex;
+}
+
