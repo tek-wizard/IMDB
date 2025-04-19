@@ -44,7 +44,7 @@ function TopRated() {
     <>
       <div
         className="container"
-        style={{ position: "relative", top: "-70px", left: "10px" }}
+        // style={{ position: "relative", top: "-70px", left: "10px" }}
       >
         <h1 className="text-white inline-block relative left-[20px] top-[-30px] font-display text-[30px]">
           Top Rated

@@ -5,7 +5,7 @@ import "./Banner.css"
 function Show({ img }) {
   return (
     <div
-      className="h-[70vh] w-[80vw] bg-cover bg-no-repeat bg-center bg-blend-normal"
+      className="h-[70vh] w-[80vw] bg-cover bg-no-repeat bg-center bg-blend-normal text-center"
       style={{
         backgroundImage: `url(${img})`,
         maskImage:
@@ -13,7 +13,8 @@ function Show({ img }) {
         WebkitMaskImage:
           "radial-gradient(circle, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 0) 100%)",
       }}
-    ></div>
+    >
+    </div>
   );
 }
 

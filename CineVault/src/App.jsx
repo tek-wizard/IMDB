@@ -5,10 +5,12 @@ import Popular from "./components/Popular";
 import { Context } from "./components/Context";
 import { addToast } from "@heroui/toast";
 import Watchlist from "./components/Watchlist";
+import FromWatchlist from "./components/FromWatchlist";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import TopRated from "./components/TopRated";
 import axios from "axios";
 import "./App.css";
+import { Spacer } from "@heroui/react";
 
 function App() {
   const [Favourites, setFavourites] = useState([]);
@@ -218,6 +220,8 @@ function App() {
               <>
                 <Banner />
                 <Popular />
+                <FromWatchlist />
+                <Spacer y={40} />
                 <TopRated />
               </>
             }

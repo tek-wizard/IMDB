@@ -264,7 +264,7 @@ const TrailerModal = ({ isTrailerOpen, onTrailerOpenChange, trailerKey }) => {
               />
             </div>
           ) : (
-            <NotFound message={"Official trailer not available."} size={"100"}/>
+            <NotFound message={"Official trailer not available."} size={"100"}/> 
           )}
         </ModalBody>
       </ModalContent>
@@ -384,6 +384,7 @@ export default function Mycard({ movieObj, maxPopularity }) {
   const [liked, setLiked] = useState(false)
   const [InCollection, setInCollection] = useState(new Set())
   const [trailerKey, setTrailerKey] = useState("")
+  const [loadingTrailer, setLoadingTrailer] = useState(false)
 
   const {
     isOpen: isTrailerOpen,
@@ -424,8 +425,7 @@ export default function Mycard({ movieObj, maxPopularity }) {
           ) ||
           videos.find(
             (v) => v.type === "Trailer" && v.site === "YouTube"
-          ) ||
-          videos.find((v) => v.site === "YouTube") || null
+          ) || null
   
         setTrailerKey(trailer?.key || "")
       })

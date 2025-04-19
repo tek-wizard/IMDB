@@ -90,7 +90,6 @@ function Popular() {
           </div>
         </div>
       </div>
-      <Spacer y={40}/>
     </>
   )
 }
