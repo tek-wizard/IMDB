@@ -40,25 +40,28 @@ import {
 } from "./SVG.jsx"
 import TrailerModal from "./TrailerModal.jsx"
 import { InfoModal } from "./InfoModal.jsx"
+import SignupModal from "./SignupModal"
 
 export const Rating = ({ rating, outOf = false }) => (
   <h1 className="flex items-center gap-2 inline">
     <StarSVG />
-    <p style={{ position: "relative", top: "3px", left: "-6px" }} className="font-bold">
+    <p
+      style={{ position: "relative", top: "3px", left: "-6px" }}
+      className="font-bold"
+    >
       {rating.toFixed(1)}
       {outOf && " / 10"}
     </p>
   </h1>
 )
 
-export const NotFound = ({message , size}) => (
+export const NotFound = ({ message, size }) => (
   <>
-  <div className="flex justify-center mt-4">
-    <img src={snoringPanda} alt="ZZZ Logo" width={size} />
-  </div>
-  <p className="ml-[20px]">{message}</p>
+    <div className="flex justify-center mt-4">
+      <img src={snoringPanda} alt="ZZZ Logo" width={size} />
+    </div>
+    <p className="ml-[20px]">{message}</p>
   </>
-
 )
 
 export const CollectionModal = ({
@@ -83,7 +86,12 @@ export const CollectionModal = ({
   }
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="sm" placement="center" >
+    <Modal
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      size="sm"
+      placement="center"
+    >
       <ModalContent>
         {() => (
           <>
@@ -97,36 +105,39 @@ export const CollectionModal = ({
                   selectedKeys={[...InCollection]}
                   onSelectionChange={HandleInCollection}
                 >
-                  {Object.entries(Info.AllCollections).map(([collectionKey, collection]) => (
-                    <ListboxItem
-                      key={collectionKey}
-                      textValue={collection.name}
-                      className={`!outline-none !ring-0 !shadow-none ${
-                        InCollection.has(collectionKey)
-                          ? "!bg-green-200"
-                          : "!bg-transparent"
-                      }`}
-                      onPress={() => HandleInCollection(collectionKey, movieName)}
-                      hideSelectedIcon={true}
-                    >
-                      <div className="relative flex gap-2 items-center">
-                        <span className="text-small">{collection.name}</span>
-                        <span className="text-tiny text-default-400">
-                          Created on: {collection.creationDate}
-                        </span>
-                        {InCollection.has(collectionKey) && (
-                          <div className="absolute right-2">
-                            <TickSVG />
-                          </div>
-                        )}
-                      </div>
-                    </ListboxItem>
-                  ))}
+                  {Object.entries(Info.AllCollections).map(
+                    ([collectionKey, collection]) => (
+                      <ListboxItem
+                        key={collectionKey}
+                        textValue={collection.name}
+                        className={`!outline-none !ring-0 !shadow-none ${
+                          InCollection.has(collectionKey)
+                            ? "!bg-green-200"
+                            : "!bg-transparent"
+                        }`}
+                        onPress={() =>
+                          HandleInCollection(collectionKey, movieName)
+                        }
+                        hideSelectedIcon={true}
+                      >
+                        <div className="relative flex gap-2 items-center">
+                          <span className="text-small">{collection.name}</span>
+                          <span className="text-tiny text-default-400">
+                            Created on: {collection.creationDate}
+                          </span>
+                          {InCollection.has(collectionKey) && (
+                            <div className="absolute right-2">
+                              <TickSVG />
+                            </div>
+                          )}
+                        </div>
+                      </ListboxItem>
+                    )
+                  )}
                 </Listbox>
               ) : (
                 <>
-                  <NotFound message={"No collections available."} size={"70"}/>
-                  
+                  <NotFound message={"No collections available."} size={"70"} />
                 </>
               )}
               {inputFieldOpen && (
@@ -135,7 +146,9 @@ export const CollectionModal = ({
                   <Input
                     description={
                       input.trim() === "" && submitted ? (
-                        <p className="text-red-500">Collection name cannot be empty</p>
+                        <p className="text-red-500">
+                          Collection name cannot be empty
+                        </p>
                       ) : (
                         <p>Example: Action Movies, Retro & Nostalgic, Spicy</p>
                       )
@@ -182,8 +195,6 @@ export const CollectionModal = ({
   )
 }
 
-
-
 const LikeDropdown = ({
   liked,
   setLiked,
@@ -193,6 +204,7 @@ const LikeDropdown = ({
   Info,
   InCollection,
   HandleInCollection,
+  ensureLoggedIn,
 }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const inCollection = InCollection.size > 0
@@ -213,10 +225,12 @@ const LikeDropdown = ({
             textValue="favourite"
             key="favourite"
             className="hover:!bg-rose-200"
-            onPress={() => {
-              Info.handleFavourites(movieObj)
-              setLiked((prev) => !prev)
-            }}
+            onPress={() =>
+              ensureLoggedIn(() => {
+                Info.handleFavourites(movieObj)
+                setLiked((prev) => !prev)
+              })
+            }
           >
             <HeartSVG liked={liked} />
             <p className="inline relative top-[1px]">
@@ -227,10 +241,12 @@ const LikeDropdown = ({
             textValue="watchlist"
             key="watchlist"
             className="hover:!bg-blue-200"
-            onPress={() => {
-              Info.handleWatchlist(movieObj)
-              setBookmarked((prev) => !prev)
-            }}
+            onPress={() =>
+              ensureLoggedIn(() => {
+                Info.handleWatchlist(movieObj)
+                setBookmarked((prev) => !prev)
+              })
+            }
           >
             <BookmarkSVG bookmarked={bookmarked} />
             <p className="inline relative top-[1px]">
@@ -241,7 +257,7 @@ const LikeDropdown = ({
             textValue="collection"
             key="collection"
             className={`hover:!bg-green-200 ${isOpen ? "bg-green-200" : ""}`}
-            onPress={onOpen}
+            onPress={() => ensureLoggedIn(onOpen)}
             closeOnSelect={true}
           >
             <ListSVG inCollection={inCollection} />
@@ -249,7 +265,11 @@ const LikeDropdown = ({
               {inCollection ? "In Collection" : "Add to a Collection"}
             </p>
           </DropdownItem>
-          <DropdownItem textValue="share" key="share" className="hover:!bg-violet-200">
+          <DropdownItem
+            textValue="share"
+            key="share"
+            className="hover:!bg-violet-200"
+          >
             <ShareSVG />
             <p className="inline relative top-[1px]">Share</p>
           </DropdownItem>
@@ -268,26 +288,36 @@ const LikeDropdown = ({
   )
 }
 
+export const Popularity = ({ popularity, maxPopularity }) => {
+  const validPopularity = popularity || 0
+  const validMaxPopularity = maxPopularity || 1 // Avoid division by zero
+  const percentage = Math.floor((validPopularity / validMaxPopularity) * 100)
 
-
-export const Popularity = ({ popularity, maxPopularity }) => (
-  <Tooltip content="Relative To The Most Popular" placement="top" className="text-gray-700 bg-transparent" delay={1000} offset={-11}>
-    <Progress
-      classNames={{
-        base: "max-w-md",
-        indicator: "bg-gradient-to-r from-rose-600 to-pink-300",
-        label: "tracking-wider font-medium text-default-600",
-        value: "text-foreground/60",
-      }}
-      label="Popularity"
-      radius="sm"
-      showValueLabel={true}
-      size="sm"
-      value={Math.floor((popularity / maxPopularity) * 100)}
-      className="absolute bottom-[10px]"
-    />
-  </Tooltip>
-)
+  return (
+    <Tooltip
+      content="Relative To The Most Popular"
+      placement="top"
+      className="text-gray-700 bg-transparent"
+      delay={1000}
+      offset={-11}
+    >
+      <Progress
+        classNames={{
+          base: "max-w-md",
+          indicator: "bg-gradient-to-r from-rose-600 to-pink-300",
+          label: "tracking-wider font-medium text-default-600",
+          value: "text-foreground/60",
+        }}
+        label="Popularity"
+        radius="sm"
+        showValueLabel={true}
+        size="sm"
+        value={percentage}
+        className="absolute bottom-[10px]"
+      />
+    </Tooltip>
+  )
+}
 
 export default function Mycard({ movieObj, maxPopularity }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
@@ -296,6 +326,7 @@ export default function Mycard({ movieObj, maxPopularity }) {
   const [liked, setLiked] = useState(false)
   const [InCollection, setInCollection] = useState(new Set())
   const [trailerKey, setTrailerKey] = useState("")
+  const [isSignupModalOpen, setSignupModalOpen] = useState(false)
 
   const {
     isOpen: isTrailerOpen,
@@ -303,30 +334,55 @@ export default function Mycard({ movieObj, maxPopularity }) {
     onOpenChange: onTrailerOpenChange,
   } = useDisclosure()
 
-  useEffect(() => {
-    const isBookmarked = Info.watchlist.some((movie) => movie.id === movieObj.id)
-    setBookmarked(isBookmarked)
-  }, [Info.watchlist, movieObj])
+  const ensureLoggedIn = (action) => {
+    const user = Info.user // Use user from context
+    if (!user) {
+      setSignupModalOpen(true)
+      return false
+    }
+    action()
+    return true
+  }
 
-  const HandleInCollection = (collectionkey, movieName) => {
-    setInCollection((prev) => {
-      const newSet = new Set(prev)
-      if (newSet.has(collectionkey)) {
-        Info.removeFromCollection(collectionkey, movieName)
-        newSet.delete(collectionkey)
-      } else {
-        Info.addToCollection(collectionkey, movieName)
-        newSet.add(collectionkey)
-      }
-      return newSet
+  const handleWatchlist = () => {
+    ensureLoggedIn(() => {
+      Info.handleWatchlist(movieObj)
     })
   }
+
+  const handleFavourites = () => {
+    ensureLoggedIn(() => {
+      Info.handleFavourites(movieObj)
+    })
+  }
+
+  const handleCollection = (collectionKey, movieName) => {
+    ensureLoggedIn(() => {
+      setInCollection((prev) => {
+        const newSet = new Set(prev)
+        if (newSet.has(collectionKey)) {
+          Info.removeFromCollection(collectionKey, movieName)
+          newSet.delete(collectionKey)
+        } else {
+          Info.addToCollection(collectionKey, movieName)
+          newSet.add(collectionKey)
+        }
+        return newSet
+      })
+    })
+  }
+
+  useEffect(() => {
+    const isBookmarked = Info.watchlist.some(
+      (movie) => movie.id === movieObj.id
+    )
+    setBookmarked(isBookmarked)
+  }, [Info.watchlist, movieObj])
 
   useEffect(() => {
     if (isTrailerOpen) {
       Info.MovieVideos(movieObj.id).then((response) => {
         const videos = response.data.results || []
-        console.log("🎬 Videos for:", movieObj.title, videos)
         const trailer =
           videos.find(
             (v) =>
@@ -334,84 +390,93 @@ export default function Mycard({ movieObj, maxPopularity }) {
               v.site === "YouTube" &&
               v.official === true
           ) ||
-          videos.find(
-            (v) => v.type === "Trailer" && v.site === "YouTube"
-          ) || null
-  
+          videos.find((v) => v.type === "Trailer" && v.site === "YouTube") ||
+          null
+
         setTrailerKey(trailer?.key || "")
       })
     }
   }, [isTrailerOpen, movieObj.id, Info])
-  
 
   return (
-    <Card
-      isFooterBlurred
-      isPressable
-      className="border-none rounded-b-[1rem] rounded-tr-[1rem] w-[200px] h-[500px]"
-      radius="none"
-      onPress={onOpen}
-    >
-      <Image
-        alt={movieObj.title}
-        className="object-cover hover:brightness-50"
+    <>
+      <Card
+        isFooterBlurred
+        isPressable
+        className="border-none rounded-b-[1rem] rounded-tr-[1rem] w-[200px] h-[500px]"
         radius="none"
-        height={300}
-        width={200}
-        src={
-          movieObj.poster_path
-            ? `https://image.tmdb.org/t/p/original/${movieObj.poster_path}`
-            : "/fallback-image.jpg"
-        }
-      />
+        onPress={onOpen}
+      >
+        <Image
+          alt={movieObj.title}
+          className="object-cover hover:brightness-50"
+          radius="none"
+          height={300}
+          width={200}
+          src={
+            movieObj.poster_path
+              ? `https://image.tmdb.org/t/p/original/${movieObj.poster_path}`
+              : "/fallback-image.jpg"
+          }
+        />
 
-      <CardBody className="flex flex-col justify-between h-full">
-        <div className="flex flex-col flex-grow">
-          <div className="w-full relative">
-            <Rating rating={movieObj.vote_average} />
-            <LikeDropdown
-              movieObj={movieObj}
-              Info={Info}
-              bookmarked={bookmarked}
-              setBookmarked={setBookmarked}
-              liked={liked}
-              setLiked={setLiked}
-              InCollection={InCollection}
-              HandleInCollection={HandleInCollection}
-            />
+        <CardBody className="flex flex-col justify-between h-full">
+          <div className="flex flex-col flex-grow">
+            <div className="w-full relative">
+              <Rating rating={movieObj.vote_average} />
+              <LikeDropdown
+                movieObj={movieObj}
+                Info={Info}
+                bookmarked={bookmarked}
+                setBookmarked={setBookmarked}
+                liked={liked}
+                setLiked={setLiked}
+                InCollection={InCollection}
+                HandleInCollection={handleCollection}
+                ensureLoggedIn={ensureLoggedIn}
+              />
+            </div>
+            <Spacer y={2} />
+            <h1 style={{ fontFamily: "lora" }} className="text-wrap">
+              {movieObj.title}
+            </h1>
           </div>
-          <Spacer y={2} />
-          <h1 style={{ fontFamily: "lora" }} className="text-wrap">
-            {movieObj.title}
-          </h1>
-        </div>
 
-        <div className="mt-auto flex justify-center relative top-[5px]">
-          <Button
-            color="primary"
-            variant="light"
-            startContent={<PlayIconSVG />}
-            className="text-[17px]"
-            radius="full"
-            onPress={onTrailerOpen}
-          >
-            <p className="relative left-[-5px] top-[2px]">Trailer</p>
-          </Button>
-        </div>
+          <div className="mt-auto flex justify-center relative top-[5px]">
+            <Button
+              color="primary"
+              variant="light"
+              startContent={<PlayIconSVG />}
+              className="text-[17px]"
+              radius="full"
+              onPress={onTrailerOpen}
+            >
+              <p className="relative left-[-5px] top-[2px]">Trailer</p>
+            </Button>
+          </div>
 
-        <InfoModal
-          isOpen={isOpen}
-          onOpenChange={onOpenChange}
-          movieObj={movieObj}
-          maxPopularity={maxPopularity}
-        />
+          <InfoModal
+            isOpen={isOpen}
+            onOpenChange={onOpenChange}
+            movieObj={movieObj}
+            maxPopularity={maxPopularity}
+          />
 
-        <TrailerModal
-          isTrailerOpen={isTrailerOpen}
-          onTrailerOpenChange={onTrailerOpenChange}
-          trailerKey={trailerKey}
-        />
-      </CardBody>
-    </Card>
+          <TrailerModal
+            isTrailerOpen={isTrailerOpen}
+            onTrailerOpenChange={onTrailerOpenChange}
+            trailerKey={trailerKey}
+          />
+        </CardBody>
+      </Card>
+
+      <SignupModal
+        isOpen={isSignupModalOpen}
+        onClose={() => setSignupModalOpen(false)}
+        onSignup={(user) => {
+          Info.setUser(user)
+        }}
+      />
+    </>
   )
 }

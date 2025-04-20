@@ -9,8 +9,11 @@ import { Context } from "./Context"
 
 export const Loading = () => {
   return (
-    <div className="flex justify-center items-center" style={{width:"80rem"}}>
-        <CircularProgress aria-label="Loading..." size="lg"/>
+    <div
+      className="flex justify-center items-center"
+      style={{ width: "80rem" }}
+    >
+      <CircularProgress aria-label="Loading..." size="lg" />
     </div>
   )
 }
@@ -54,7 +57,6 @@ function Popular() {
     })
   }, [page])
 
-
   return (
     <>
       <div
@@ -78,7 +80,9 @@ function Popular() {
                     <MyCard
                       key={index}
                       movieObj={value}
-                      maxPopularity={movies[0].popularity}
+                      maxPopularity={Math.max(
+                        ...movies.map((movie) => movie.popularity)
+                      )}
                     />
                     <Spacer x={8} />
                   </>

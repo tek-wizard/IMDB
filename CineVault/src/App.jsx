@@ -1,45 +1,60 @@
-import { useEffect, useState } from "react";
-import MyNav from "./components/MyNav";
-import Banner from "./components/Banner";
-import Popular from "./components/Popular";
-import { Context } from "./components/Context";
-import { addToast } from "@heroui/toast";
-import Watchlist from "./components/Watchlist";
-import FromWatchlist from "./components/FromWatchlist";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import TopRated from "./components/TopRated";
-import axios from "axios";
-import "./App.css";
-import { Spacer } from "@heroui/react";
+import { useEffect, useState } from "react"
+import MyNav from "./components/MyNav"
+import Banner from "./components/Banner"
+import Popular from "./components/Popular"
+import { Context } from "./components/Context"
+import { addToast } from "@heroui/toast"
+import Watchlist from "./components/Watchlist"
+import FromWatchlist from "./components/FromWatchlist"
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import TopRated from "./components/TopRated"
+import axios from "axios"
+import "./App.css"
+import { Spacer } from "@heroui/react"
+import Recommendation from "./components/Recommendation"
 
 function App() {
-  const [Favourites, setFavourites] = useState([]);
+  const [Favourites, setFavourites] = useState([])
   const [watchlist, setWatchlist] = useState(() => {
-    let storedwatchlist = localStorage.getItem("watchlist");
-    if (!storedwatchlist) return [];
-    return JSON.parse(storedwatchlist);
-  });
+    let storedwatchlist = localStorage.getItem("watchlist")
+    if (!storedwatchlist) return []
+    return JSON.parse(storedwatchlist)
+  })
 
-  const [Collections, setCollections] = useState({});
-  const [movieVideos,setMovieVideos]=useState([])
+  const [Collections, setCollections] = useState({})
+  const [movieVideos, setMovieVideos] = useState([])
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("user")
+    return storedUser ? JSON.parse(storedUser) : null
+  })
+
+  const handleSignup = (user) => {
+    localStorage.setItem("user", JSON.stringify(user))
+    setUser(user)
+    addToast({
+      title: `Welcome, ${user.username}!`,
+      color: "success",
+      timeout: "4000",
+    })
+  }
 
   useEffect(() => {
-    const stored = localStorage.getItem("collections");
+    const stored = localStorage.getItem("collections")
     if (stored) {
-      const parsed = JSON.parse(stored);
+      const parsed = JSON.parse(stored)
       const hydrated = Object.fromEntries(
         Object.entries(parsed).map(([key, value]) => [
           key,
           { ...value, movies: new Set(value.movies) },
         ])
-      );
-      setCollections(hydrated);
+      )
+      setCollections(hydrated)
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
-    localStorage.setItem("watchlist", JSON.stringify(watchlist));
-  }, [watchlist]);
+    localStorage.setItem("watchlist", JSON.stringify(watchlist))
+  }, [watchlist])
 
   useEffect(() => {
     const serializable = Object.fromEntries(
@@ -47,57 +62,57 @@ function App() {
         key,
         { ...value, movies: Array.from(value.movies) },
       ])
-    );
-    localStorage.setItem("collections", JSON.stringify(serializable));
-  }, [Collections]);
+    )
+    localStorage.setItem("collections", JSON.stringify(serializable))
+  }, [Collections])
 
   function handleFavourites(movieObj) {
     if (!Favourites.some((element) => element.id === movieObj.id)) {
-      setFavourites((prev) => [...prev, movieObj]);
+      setFavourites((prev) => [...prev, movieObj])
       addToast({
         title: `Movie added in Favourites`,
         color: "success",
         timeout: "4000",
-      });
+      })
     } else {
       setFavourites((prev) =>
         prev.filter((element) => element.id !== movieObj.id)
-      );
+      )
       addToast({
         title: `Movie removed from Favourites`,
         color: "success",
         timeout: "4000",
-      });
+      })
     }
   }
 
   function handleWatchlist(movieObj) {
-    let updatedWatchlist = [];
+    let updatedWatchlist = []
     if (!watchlist.some((element) => element.id === movieObj.id)) {
-      updatedWatchlist = [...watchlist, movieObj];
-      setWatchlist(updatedWatchlist);
+      updatedWatchlist = [...watchlist, movieObj]
+      setWatchlist(updatedWatchlist)
       addToast({
         title: `Movie added in Watchlist`,
         color: "success",
         timeout: "4000",
-      });
+      })
     } else {
       updatedWatchlist = watchlist.filter(
         (element) => element.id !== movieObj.id
-      );
-      setWatchlist(updatedWatchlist);
+      )
+      setWatchlist(updatedWatchlist)
       addToast({
         title: `Movie removed from Watchlist`,
         color: "success",
         timeout: "4000",
-      });
+      })
     }
   }
 
   function addCollections(collectionName) {
-    const key = collectionName.toLowerCase().replace(/\s/g, "");
-    const name = collectionName.replace(/\s+/g, " ").trim();
-    const date = new Date().toISOString();
+    const key = collectionName.toLowerCase().replace(/\s/g, "")
+    const name = collectionName.replace(/\s+/g, " ").trim()
+    const date = new Date().toISOString()
 
     setCollections((prev) => {
       if (prev[key]) {
@@ -105,15 +120,15 @@ function App() {
           title: `Collection Name: ${name} already exists`,
           color: "danger",
           timeout: "4000",
-        });
-        return prev;
+        })
+        return prev
       }
 
       addToast({
         title: "New Collection Added",
         color: "success",
         timeout: "4000",
-      });
+      })
 
       return {
         ...prev,
@@ -122,15 +137,15 @@ function App() {
           creationDate: date.substring(0, 10),
           movies: new Set(),
         },
-      };
-    });
+      }
+    })
   }
 
   function addToCollection(collectionKey, movieObj) {
-    const key = collectionKey;
+    const key = collectionKey
     setCollections((prev) => {
-      const updatedMovies = new Set(prev[key]?.movies || []);
-      updatedMovies.add(movieObj.id);
+      const updatedMovies = new Set(prev[key]?.movies || [])
+      updatedMovies.add(movieObj.id)
 
       return {
         ...prev,
@@ -138,21 +153,21 @@ function App() {
           ...prev[key],
           movies: updatedMovies,
         },
-      };
-    });
+      }
+    })
 
     addToast({
       title: `Movie added in the Collection`,
       color: "success",
       timeout: "4000",
-    });
+    })
   }
 
   function removeFromCollection(collectionKey, movieObj) {
-    const key = collectionKey;
+    const key = collectionKey
     setCollections((prev) => {
-      const newMovies = new Set(prev[key].movies);
-      newMovies.delete(movieObj.id);
+      const newMovies = new Set(prev[key].movies)
+      newMovies.delete(movieObj.id)
 
       return {
         ...prev,
@@ -160,37 +175,38 @@ function App() {
           ...prev[key],
           movies: newMovies,
         },
-      };
-    });
+      }
+    })
 
     addToast({
       title: `Movie removed from the Collection`,
       color: "success",
       timeout: "4000",
-    });
+    })
   }
 
   function RemoveCollections(collectionName) {
-    const key = collectionName.toLowerCase().replace(/\s/g, "");
+    const key = collectionName.toLowerCase().replace(/\s/g, "")
     setCollections((prev) => {
-      const latest = { ...prev };
-      delete latest[key];
-      return latest;
-    });
+      const latest = { ...prev }
+      delete latest[key]
+      return latest
+    })
 
     addToast({
       title: "Collection Removed",
       color: "success",
       timeout: "4000",
-    });
+    })
   }
 
-  async function MovieVideos(movieId){
-    try{
-      const movieVideos=await axios.get(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=e7ab7217c6e7f635c3bc6191429655c8`)
+  async function MovieVideos(movieId) {
+    try {
+      const movieVideos = await axios.get(
+        `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=e7ab7217c6e7f635c3bc6191429655c8`
+      )
       return movieVideos
-    } 
-    catch{
+    } catch {
       console.log("error")
       return []
     }
@@ -207,12 +223,14 @@ function App() {
     movieVideos,
     AllCollections: Collections,
     watchlist,
-  };
+    user,
+    setUser, // Pass setUser to context
+  }
 
   return (
     <Context.Provider value={Info}>
       <BrowserRouter>
-        <MyNav />
+        <MyNav onSignup={handleSignup} />
         <Routes>
           <Route
             path="/"
@@ -226,14 +244,20 @@ function App() {
               </>
             }
           />
-          <Route path="/watchlist" element={<Watchlist watchlist={watchlist} />} />
+          <Route
+            path="/watchlist"
+            element={<Watchlist watchlist={watchlist} />}
+          />
+          <Route
+            path="/recommendation"
+            element={<Recommendation watchlist={watchlist} />}
+          />
         </Routes>
       </BrowserRouter>
     </Context.Provider>
-  );
+  )
 }
 
-export default App;
-
+export default App
 
 // `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=e7ab7217c6e7f635c3bc6191429655c8`

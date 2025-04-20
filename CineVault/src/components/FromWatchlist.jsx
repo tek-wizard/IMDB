@@ -5,7 +5,7 @@ import { PlayCircle, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react"
 import TrailerModal from "./TrailerModal"
 import { InfoModal } from "./InfoModal"
 
-function MyCard({ movieObj, index, onClick }) {
+function MyCard({ movieObj, index, onClick, maxPopularity }) {
   return (
     <Card
       isFooterBlurred
@@ -102,9 +102,7 @@ function FromWatchlist() {
               v.site === "YouTube" &&
               v.official === true
           ) ||
-          videos.find(
-            (v) => v.type === "Trailer" && v.site === "YouTube"
-          ) ||
+          videos.find((v) => v.type === "Trailer" && v.site === "YouTube") ||
           null
 
         setTrailerKey(trailer?.key || "")
@@ -186,6 +184,10 @@ function FromWatchlist() {
                     movieObj={movie}
                     index={index}
                     onClick={handleCardClick}
+                    maxPopularity={Math.max(
+                      ...watchlist.map((movie) => movie.popularity || 0),
+                      0
+                    )}
                   />
                 </div>
               ))}
