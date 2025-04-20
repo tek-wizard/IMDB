@@ -38,6 +38,8 @@ import {
   TickSVG,
   UpArrowSVG,
 } from "./SVG.jsx"
+import TrailerModal from "./TrailerModal.jsx"
+import { InfoModal } from "./InfoModal.jsx"
 
 export const Rating = ({ rating, outOf = false }) => (
   <h1 className="flex items-center gap-2 inline">
@@ -180,97 +182,7 @@ export const CollectionModal = ({
   )
 }
 
-export function Modall({ isOpen, onOpenChange, movieObj, maxPopularity }) {
-  const date = new Date(movieObj.release_date)
-  const [fullImg, setFullImg] = useState(true)
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
-  useEffect(() => {
-    if (!isOpen) {
-      setFullImg(false)
-    }
-  }, [isOpen])
-
-  return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="3xl">
-      <ModalContent>
-        <ModalBody>
-          <div className={fullImg ? "justify-center flex" : "flex"}>
-            <div
-              onClick={() => setFullImg((prev) => !prev)}
-              className="cursor-pointer"
-            >
-              <Image
-                className="object-cover transition-all"
-                radius="lg"
-                height={fullImg ? 900 : 300}
-                width={fullImg ? 600 : 200}
-                src={
-                  movieObj.poster_path
-                    ? `https://image.tmdb.org/t/p/original/${movieObj.poster_path}`
-                    : "/fallback-image.jpg"
-                }
-              />
-            </div>
-
-            {!fullImg && (
-              <>
-                <Spacer x={4} />
-                <div className="w-[500px] relative">
-                  <h1 className="font-display text-[30px]">
-                    {movieObj.title}
-                    <p className="inline m-[15px] text-gray-400 text-[80%]">
-                      ({date.getFullYear()})
-                    </p>
-                  </h1>
-                  <Spacer y={3} />
-                  <Rating rating={movieObj.vote_average} outOf={true} />
-                  <Spacer y={2} />
-                  <p className="text-gray-600">
-                    {months[date.getMonth()]} {date.getDate()}, {date.getFullYear()}
-                  </p>
-                  <Genre genres={movieObj.genre_ids} />
-                  <Popularity popularity={movieObj.popularity} maxPopularity={maxPopularity} />
-                </div>
-              </>
-            )}
-          </div>
-          {!fullImg && <p className="m-[10px]">{movieObj.overview}</p>}
-        </ModalBody>
-      </ModalContent>
-    </Modal>
-  )
-}
-
-const TrailerModal = ({ isTrailerOpen, onTrailerOpenChange, trailerKey }) => {
-  return (
-    <Modal isOpen={isTrailerOpen} onOpenChange={onTrailerOpenChange} size={trailerKey?"5xl":"sm"} backdrop="opaque"
-    classNames={{
-      base: `${trailerKey ? "bg-black" : ""} rounded-lg shadow-lg`,
-  backdrop: "bg-gradient-to-t from-zinc-900 to-zinc-900/40 backdrop-opacity-40"
-    }}>
-      <ModalContent>
-        <ModalBody className="p-0">
-          {trailerKey ? (
-            <div className="w-full h-[70vh]">
-              <iframe
-                width="100%"
-                height="100%"
-                src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1`}
-                title="YouTube Trailer"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-full rounded-xl"
-              />
-            </div>
-          ) : (
-            <NotFound message={"Official trailer not available."} size={"100"}/> 
-          )}
-        </ModalBody>
-      </ModalContent>
-    </Modal>
-  )
-}
 
 const LikeDropdown = ({
   liked,
@@ -384,7 +296,6 @@ export default function Mycard({ movieObj, maxPopularity }) {
   const [liked, setLiked] = useState(false)
   const [InCollection, setInCollection] = useState(new Set())
   const [trailerKey, setTrailerKey] = useState("")
-  const [loadingTrailer, setLoadingTrailer] = useState(false)
 
   const {
     isOpen: isTrailerOpen,
@@ -488,7 +399,7 @@ export default function Mycard({ movieObj, maxPopularity }) {
           </Button>
         </div>
 
-        <Modall
+        <InfoModal
           isOpen={isOpen}
           onOpenChange={onOpenChange}
           movieObj={movieObj}
