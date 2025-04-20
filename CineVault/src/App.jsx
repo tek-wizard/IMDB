@@ -12,6 +12,7 @@ import axios from "axios"
 import "./App.css"
 import { Spacer } from "@heroui/react"
 import Recommendation from "./components/Recommendation"
+import MovieDetail from "./components/MovieDetail"
 
 function App() {
   const [Favourites, setFavourites] = useState([])
@@ -252,6 +253,7 @@ function App() {
             path="/recommendation"
             element={<Recommendation watchlist={watchlist} />}
           />
+          <Route path="/movie/:movieId" element={<MovieDetail />} />
         </Routes>
       </BrowserRouter>
     </Context.Provider>
