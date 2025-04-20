@@ -98,19 +98,21 @@ export function InfoModal({ isOpen, onOpenChange, movieObj, maxPopularity }) {
                 </p>
               )}
             </ModalBody>
-            <ModalFooter>
-              <Button
-                className="bg-transparent hover:bg-black/5 text-default-700 border-none flex-1 font-medium gap-2 py-6"
-                variant="light"
-                onPress={() => {
-                  onClose()
-                  navigate(`/movie/${movieObj.id}`)
-                }}
-              >
-                View Details
-                <ArrowRight className="w-4 h-4 opacity-50" />
-              </Button>
-            </ModalFooter>
+            {!fullImg && (
+              <ModalFooter>
+                <Button
+                  className="bg-transparent hover:bg-black/5 text-default-700 border-none flex-1 font-medium gap-2 py-6"
+                  variant="light"
+                  onPress={() => {
+                    onClose()
+                    navigate(`/movie/${movieObj.id}`)
+                  }}
+                >
+                  View Details
+                  <ArrowRight className="w-4 h-4 opacity-50" />
+                </Button>
+              </ModalFooter>
+            )}
           </>
         )}
       </ModalContent>

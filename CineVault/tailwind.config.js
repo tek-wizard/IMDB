@@ -15,6 +15,7 @@ export default {
         display: ["lora", "cursive"],
         sans: ["Exo 2", "sans-serif"],
         fancy: ["Permanent Marker", "cursive"],
+        heading: ["Orbitron", "sans-serif"], // Add this modern sci-fi font
       },
       colors: {
         background: "#14181C",

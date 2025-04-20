@@ -4,31 +4,33 @@
 @tailwind components;
 @tailwind utilities;
 
-#root{
-    background-color: black;
+#root {
+  background-color: black;
 }
 
 @theme inline {
-    --animate-aurora: aurora 60s linear infinite;
-    @keyframes aurora {
-      from {
-        background-position:
-          50% 50%,
-          50% 50%;
-      }
-      to {
-        background-position:
-          350% 50%,
-          350% 50%;
-      }
+  --animate-aurora: aurora 60s linear infinite;
+  @keyframes aurora {
+    from {
+      background-position: 50% 50%, 50% 50%;
+    }
+    to {
+      background-position: 350% 50%, 350% 50%;
     }
   }
+}
 
-  /* Hide scrollbars - optional */
+/* Hide scrollbars - optional */
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+
+.bg-content1:has([data-dropdown-id="user-dropdown"]) {
+  background-color: transparent !important;
+  box-shadow: none !important;
 }

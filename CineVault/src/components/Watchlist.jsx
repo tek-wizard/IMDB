@@ -326,7 +326,7 @@ export default function Watchlist() {
         <div className="max-w-6xl mx-auto text-center">
           <NotFound
             message={
-              <span className="font-title text-lg">
+              <span className="font-title text-lg text-white">
                 Your watchlist is empty. Start adding some movies!
               </span>
             }
