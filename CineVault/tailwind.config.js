@@ -20,9 +20,9 @@ export default {
       colors: {
         background: "#14181C",
         gold: {
-          300: "#ffd700",
-          400: "#FFD700",
-          500: "#ffd700",
+          300: "#ffb3b3", // Light red
+          400: "#ff9999", // Medium light red
+          500: "#ff8080", // Slightly darker red
         },
       },
       animation: {

@@ -13,9 +13,14 @@ import "./App.css"
 import { Spacer } from "@heroui/react"
 import Recommendation from "./components/Recommendation"
 import MovieDetail from "./components/MovieDetail"
+import Favorites from "./components/Favorites"
 
 function App() {
-  const [Favourites, setFavourites] = useState([])
+  const [Favourites, setFavourites] = useState(() => {
+    const storedFavorites = localStorage.getItem("favorites")
+    return storedFavorites ? JSON.parse(storedFavorites) : [] // Ensure default is empty array
+  })
+
   const [watchlist, setWatchlist] = useState(() => {
     let storedwatchlist = localStorage.getItem("watchlist")
     if (!storedwatchlist) return []
@@ -56,6 +61,10 @@ function App() {
   useEffect(() => {
     localStorage.setItem("watchlist", JSON.stringify(watchlist))
   }, [watchlist])
+
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(Favourites))
+  }, [Favourites])
 
   useEffect(() => {
     const serializable = Object.fromEntries(
@@ -226,6 +235,7 @@ function App() {
     watchlist,
     user,
     setUser, // Pass setUser to context
+    Favourites: Favourites || [], // Ensure favorites is never undefined
   }
 
   return (
@@ -254,6 +264,7 @@ function App() {
             element={<Recommendation watchlist={watchlist} />}
           />
           <Route path="/movie/:movieId" element={<MovieDetail />} />
+          <Route path="/favorites" element={<Favorites />} />
         </Routes>
       </BrowserRouter>
     </Context.Provider>

@@ -373,11 +373,13 @@ export default function Mycard({ movieObj, maxPopularity }) {
   }
 
   useEffect(() => {
-    const isBookmarked = Info.watchlist.some(
-      (movie) => movie.id === movieObj.id
-    )
+    const isBookmarked =
+      Info.watchlist?.some((movie) => movie.id === movieObj.id) || false
+    const isLiked =
+      Info.Favourites?.some((movie) => movie.id === movieObj.id) || false
     setBookmarked(isBookmarked)
-  }, [Info.watchlist, movieObj])
+    setLiked(isLiked)
+  }, [Info.watchlist, Info.Favourites, movieObj])
 
   useEffect(() => {
     if (isTrailerOpen) {
