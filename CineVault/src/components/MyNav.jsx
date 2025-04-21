@@ -65,9 +65,17 @@ export default function MyNav() {
     },
     {
       key: "collections",
-      label: "Collections",
+      label: (
+        <div className="flex items-center gap-2">
+          Collections
+          <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-amber-400/20 text-amber-400 font-medium">
+            Coming Soon
+          </span>
+        </div>
+      ),
       icon: <FolderHeart className="w-4 h-4" />,
-      onClick: () => navigate("/collections"),
+      className: "opacity-50 cursor-not-allowed",
+      isDisabled: true,
     },
     {
       key: "divider",
@@ -81,7 +89,6 @@ export default function MyNav() {
       className: "text-danger hover:text-red-500",
     },
   ]
-
 
   return (
     <>
@@ -149,6 +156,7 @@ export default function MyNav() {
                       className={`
                         py-2.5 px-4 
                         data-[hover=true]:bg-neutral-800
+                        ${item.className || ""}
                         ${
                           item.key === "logout"
                             ? "text-red-400 data-[hover=true]:!bg-red-900/50 data-[hover=true]:!text-red-400"
@@ -169,7 +177,7 @@ export default function MyNav() {
                           {item.icon}
                         </span>
                       }
-                      onPress={item.onClick}
+                      onPress={!item.isDisabled ? item.onClick : undefined}
                     >
                       {item.label}
                     </DropdownItem>

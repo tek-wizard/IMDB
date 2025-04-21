@@ -35,7 +35,7 @@ const CastMember = ({ member }) => (
 
 const CrewMember = ({ member }) => (
   <div className="flex items-center gap-4 min-w-[200px]">
-    <User2 className="w-10 h-10 p-2 bg-black/40 rounded-full text-gold-400" />
+    <User2 className="w-10 h-10 p-2 bg-black/40 rounded-full text-amber-400" />
     <div>
       <p className="text-white font-title text-sm">{member.name}</p>
       <p className="text-gray-400 text-xs">{member.job}</p>
@@ -120,7 +120,7 @@ export default function MovieDetail() {
 
               <div className="flex items-center gap-4 mb-4">
                 <div className="flex items-center gap-2">
-                  <Star className="w-5 h-5 text-gold-400" />
+                  <Star className="w-5 h-5 text-amber-400" />
                   <span className="text-white font-display text-xl">
                     {movie.vote_average.toFixed(1)}
                   </span>
@@ -141,29 +141,6 @@ export default function MovieDetail() {
               <p className="text-gray-300 font-body mb-6 max-w-2xl">
                 {movie.overview}
               </p>
-
-              {/* <div className="flex gap-3">
-                <Button
-                  className="bg-purple-600 text-white"
-                  startContent={<Film className="w-4 h-4" />}
-                >
-                  Watch Trailer
-                </Button>
-                <Button
-                  variant="bordered"
-                  className="border-purple-500/30 text-white"
-                  startContent={<Heart className="w-4 h-4" />}
-                >
-                  Add to Favorites
-                </Button>
-                <Button
-                  variant="bordered"
-                  className="border-purple-500/30 text-white"
-                  startContent={<Bookmark className="w-4 h-4" />}
-                >
-                  Add to Watchlist
-                </Button>
-              </div> */}
             </motion.div>
           </div>
         </div>
@@ -220,24 +197,24 @@ export default function MovieDetail() {
           <div className="space-y-4">
             <h2 className="text-2xl font-heading text-white mb-6">Details</h2>
             <div className="flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-purple-400" />
+              <Calendar className="w-5 h-5 text-amber-400" />
               <span className="text-gray-300">
                 Release Date:{" "}
                 {new Date(movie.release_date).toLocaleDateString()}
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <Clock className="w-5 h-5 text-purple-400" />
+              <Clock className="w-5 h-5 text-amber-400" />
               <span className="text-gray-300">
                 Runtime: {movie.runtime} minutes
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <Award className="w-5 h-5 text-purple-400" />
+              <Award className="w-5 h-5 text-amber-400" />
               <span className="text-gray-300">Status: {movie.status}</span>
             </div>
             <div className="flex items-center gap-2">
-              <ThumbsUp className="w-5 h-5 text-purple-400" />
+              <ThumbsUp className="w-5 h-5 text-amber-400" />
               <span className="text-gray-300">
                 Vote Count: {movie.vote_count}
               </span>

@@ -18,7 +18,7 @@ import {
 // Copy StatCard component from Watchlist
 const StatCard = ({ title, value, icon }) => (
   <div className="flex items-center gap-4 p-4 bg-black border border-purple-500/5 rounded-lg">
-    <div className="text-rose-400/80">{icon}</div>
+    <div className="text-red-500/80">{icon}</div>
     <div>
       <p className="text-gray-400 text-sm font-title tracking-wide">{title}</p>
       <p className="text-white text-xl font-display">{value}</p>
@@ -71,7 +71,7 @@ const SortOption = ({ icon: Icon, label, isActive, onClick }) => (
       transition-colors duration-200 font-title tracking-wide
       ${
         isActive
-          ? "bg-purple-900/30 text-rose-400 border border-rose-400/20"
+          ? "bg-purple-900/30 text-red-500 border border-red-500/20"
           : "text-gray-400 hover:bg-black/40 hover:text-white"
       }
     `}
@@ -82,7 +82,7 @@ const SortOption = ({ icon: Icon, label, isActive, onClick }) => (
     <span className="text-sm font-medium">{label}</span>
     {isActive && (
       <div className="ml-auto">
-        <div className="w-1.5 h-1.5 rounded-full bg-rose-400" />
+        <div className="w-1.5 h-1.5 rounded-full bg-red-500" />
       </div>
     )}
   </motion.button>
@@ -108,9 +108,7 @@ const Filters = ({ onSortChange, onSearch, view, setView, sortKey }) => {
                 bg-black/50 border border-purple-500/20 
                 flex items-center gap-2 px-3 py-2
                 transition-colors duration-200
-                ${
-                  sortKey ? "text-rose-400 border-rose-400/50" : "text-gray-400"
-                }
+                ${sortKey ? "text-red-500 border-red-500/50" : "text-gray-400"}
                 hover:bg-black/70
               `}
               variant="bordered"
@@ -126,7 +124,7 @@ const Filters = ({ onSortChange, onSearch, view, setView, sortKey }) => {
               variant={view === "grid" ? "solid" : "light"}
               className={
                 view === "grid"
-                  ? "bg-purple-900/50 text-rose-400 border border-purple-500/30"
+                  ? "bg-purple-900/50 text-red-500 border border-purple-500/30"
                   : "text-gray-400 hover:text-white"
               }
               onPress={() => setView("grid")}
@@ -138,7 +136,7 @@ const Filters = ({ onSortChange, onSearch, view, setView, sortKey }) => {
               variant={view === "list" ? "solid" : "light"}
               className={
                 view === "list"
-                  ? "bg-purple-900/50 text-rose-400 border border-purple-500/30"
+                  ? "bg-purple-900/50 text-red-500 border border-purple-500/30"
                   : "text-gray-400 hover:text-white"
               }
               onPress={() => setView("list")}
@@ -205,7 +203,7 @@ const MovieCard = ({ movie, onRemove, view }) => {
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Star className="w-4 h-4 text-rose-400/80" />
+              <Star className="w-4 h-4 text-red-500/80" />
               <span className="text-gray-300">
                 {movie.vote_average.toFixed(1)}
               </span>
