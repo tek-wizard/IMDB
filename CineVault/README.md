@@ -1,6 +1,7 @@
 # 🎬 CineVault
 
 CineVault is a modern movie discovery and management platform built with React, featuring a sleek dark theme UI and comprehensive movie tracking capabilities.
+website link:https://cinevault-sst.vercel.app/
 
 ## ✨ Features
 
@@ -93,7 +94,8 @@ npm run dev
 
 ### Home Page
 
-![Home Page Screenshot](.github/screenshots/home.png)
+
+![Screenshot from 2025-04-22 01-07-36](https://github.com/user-attachments/assets/ecdcfe62-8f30-4178-a609-0ea4ceae247d)
 
 - Dynamic banner with trending movies
 - Smooth horizontal scroll for movie lists
@@ -102,7 +104,7 @@ npm run dev
 
 ### Navigation & Authentication
 
-![Navigation Screenshot](.github/screenshots/nav.png)
+![Screenshot from 2025-04-22 01-08-29](https://github.com/user-attachments/assets/24a4db70-0d3d-4215-b3de-eab0f85ff2a7)
 
 - Clean, minimal navbar design
 - Avatar-based user menu
@@ -110,8 +112,8 @@ npm run dev
 - Dropdown navigation with icons
 
 ### Movie Cards
+![Screenshot from 2025-04-22 01-09-14](https://github.com/user-attachments/assets/be489a7f-2d73-4c2e-abe7-bd9933310dae)
 
-![Movie Cards Screenshot](.github/screenshots/cards.png)
 
 - Hover effects with action buttons
 - Rating display with stars
@@ -120,8 +122,8 @@ npm run dev
 - Trailer button with modal
 
 ### Watchlist Management
+![Screenshot from 2025-04-22 01-10-08](https://github.com/user-attachments/assets/61679724-1304-46d0-800a-3ba7e9c8996f)
 
-![Watchlist Screenshot](.github/screenshots/watchlist.png)
 
 - Grid/List view toggle
 - Advanced sorting and filtering
@@ -130,8 +132,8 @@ npm run dev
 - Responsive layout
 
 ### Favorites Section
+![Screenshot from 2025-04-22 01-16-16](https://github.com/user-attachments/assets/dda89498-6dd0-4d6e-8e47-ce0036e8aa0b)
 
-![Favorites Screenshot](.github/screenshots/favorites.png)
 
 - Similar to watchlist but with heart theme
 - Rose accent colors
@@ -140,7 +142,8 @@ npm run dev
 
 ### Movie Details
 
-![Movie Details Screenshot](.github/screenshots/details.png)
+![Screenshot from 2025-04-22 01-16-44](https://github.com/user-attachments/assets/00352519-552c-4da8-916f-1eb93efaca54)
+
 
 - Hero section with backdrop
 - Cast and crew carousel
@@ -149,9 +152,7 @@ npm run dev
 - Related movies
 
 ### Collections
-
-![Collections Screenshot](.github/screenshots/collections.png)
-
+- COMING SOON
 - Custom collection creation
 - Movie grouping
 - Date tracking
