@@ -396,6 +396,13 @@ export default function Mycard({ movieObj, maxPopularity }) {
    - Breakpoint system
    - Layout shifts handling
 
+
+## 📦 Upcoming Features
+
+- 🗃️ **Full Collection Management**
+- 📈 **Collection Statistics**
+- 🗓️ **Date Tracking for Movies**
+
 ## 📱 Screenshots Gallery
 
 <details>
